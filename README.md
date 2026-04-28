@@ -80,9 +80,15 @@
 ```powershell
 cd C:\Giatros\giatros-live
 git pull
+npm install  # αν χρειάζεται
+START-AGENT.bat
 ```
 
-Μετά ξανατρέξε `START-AGENT.bat`
+**Ή αυτόματα με update check:**
+
+**Διπλοκλικ**: `START-AGENT-AUTOUPDATE.bat`
+
+(Κάνει αυτόματα git pull και μετά ξεκινάει τον agent)
 
 ---
 
@@ -90,6 +96,9 @@ git pull
 
 1. **Developer** κάνει αλλαγές → `UPDATE.bat` → GitHub
 2. **Render** βλέπει τις αλλαγές → αυτόματο deploy
+3. **Καταστήματα** κάνουν `START-AGENT-AUTOUPDATE.bat` → αυτόματα updates + start
+
+**Ή manual:**
 3. **Καταστήματα** κάνουν `git pull` → νέες λειτουργίες
 
 ---

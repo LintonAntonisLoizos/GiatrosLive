@@ -29,6 +29,10 @@
 
 ### Βήμα 2️⃣ - START (Κάθε φορά που θέλεις)
 
+**Επιλογή 1 - Αυτόματα με update check:**
+**Διπλοκλικ**: `START-AGENT-AUTOUPDATE.bat`
+
+**Επιλογή 2 - Χωρίς update check:**
 **Διπλοκλικ**: `START-AGENT.bat`
 
 Έτοιμο! Ο Agent τρέχει. 📡
@@ -98,6 +102,10 @@ git pull
 npm install  # αν χρειάζεται
 START-AGENT.bat
 ```
+
+**Ή χρησιμοποίησε το αυτόματο script:**
+
+`START-AGENT-AUTOUPDATE.bat` (κάνει τα πάντα αυτόματα)
 
 ---
 

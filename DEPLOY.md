@@ -147,6 +147,10 @@ npm install  # αν χρειάζεται
 START-AGENT.bat
 ```
 
+**Ή να χρησιμοποιούν το αυτόματο script:**
+
+`START-AGENT-AUTOUPDATE.bat` (κάνει αυτόματα git pull)
+
 ---
 
 Απορίες; 🤔
