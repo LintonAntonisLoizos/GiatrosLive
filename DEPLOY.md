@@ -4,6 +4,19 @@
 
 ---
 
+## 📋 Τι χρειάζεσαι
+
+- ✅ Node.js (version 18+)
+- ✅ Git εγκατεστημένο
+- ✅ GitHub account
+- ✅ Render account
+
+**Αν δεν έχεις Git:**
+- Download: https://git-scm.com/downloads
+- Εγκατέστησε το
+
+---
+
 ## ΒΗΜΑ 1: GitHub Account
 
 1. Πήγαινε: https://github.com
@@ -102,7 +115,16 @@ STATUS_PORT=4000
 
 ## 🔄 Updates αργότερα
 
-Αν αλλάξεις κάτι:
+**Απλός τρόπος:**
+
+```powershell
+cd C:\Users\loizo\Desktop\Giatros-Live
+UPDATE.bat
+```
+
+Το script θα σε ρωτήσει για μήνυμα commit και θα κάνει push.
+
+**Manual τρόπος:**
 
 ```powershell
 git add .
@@ -111,6 +133,19 @@ git push
 ```
 
 Render θα κάνει deploy αυτόματα! ✅
+
+---
+
+## 📞 Για τους Διαχειριστές Καταστημάτων
+
+Όταν ενημερώσεις το project, πες τους να κάνουν:
+
+```powershell
+cd C:\Giatros\giatros-live
+git pull
+npm install  # αν χρειάζεται
+START-AGENT.bat
+```
 
 ---
 

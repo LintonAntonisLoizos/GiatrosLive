@@ -20,6 +20,18 @@ if errorlevel 1 (
 
 echo ✅ Node.js βρέθηκε
 
+REM Check if Git is installed
+git --version >nul 2>&1
+if errorlevel 1 (
+    echo ❌ Git δεν είναι εγκατεστημένο!
+    echo Κάνε download από: https://git-scm.com/downloads
+    echo.
+    pause
+    exit /b 1
+)
+
+echo ✅ Git βρέθηκε
+
 REM Install dependencies
 echo.
 echo Εγκατάσταση dependencies...
@@ -31,6 +43,18 @@ if errorlevel 1 (
 )
 
 echo ✅ Dependencies εγκατεστημένα
+
+REM Initialize git if not already
+if not exist ".git" (
+    echo.
+    echo Αρχικοποίηση Git repository...
+    git init
+    git add .
+    git commit -m "Initial commit"
+    echo ✅ Git repository δημιουργήθηκε
+) else (
+    echo ✅ Git repository υπάρχει ήδη
+)
 
 REM Create .env file if not exists
 if not exist ".env" (
@@ -47,6 +71,19 @@ if not exist ".env" (
 ) else (
     echo ✅ .env υπάρχει ήδη
 )
+
+echo.
+echo ========================================
+echo   ✅ SETUP ΟΛΟΚΛΗΡΩΘΗΚΕ
+echo ========================================
+echo.
+echo Τώρα:
+echo 1. Δημιούργησε repository στο GitHub
+echo 2. Κάνε: git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+echo 3. Κάνε: git push -u origin main
+echo 4. Σύνδεσε το Render με το GitHub repo
+echo.
+pause
 
 echo.
 echo ========================================
