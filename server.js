@@ -46,6 +46,16 @@ const getOrders = () => {
 const saveOrders = (orders) => fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 4));
 
 const formatOrderForPrinter = (order) => {
+    // ESC/POS commands for Greek character support
+    // ESC @ - Initialize printer
+    // ESC t 17 - Select code page PC737 (DOS Greek) - Try 21 for ISO8859-7 if needed
+    // ESC R 17 - Select international character set Greek
+    let buffer = Buffer.from([
+        0x1B, 0x40, // ESC @ - Initialize printer
+        0x1B, 0x74, 0x11, // ESC t 17 - Select code page PC737 (DOS Greek)
+        0x1B, 0x52, 0x11  // ESC R 17 - Select international character set Greek
+    ]);
+
     const lines = [];
     lines.push('*** ΠΑΡΑΓΓΕΛΙΑ ***');
     lines.push(`Αριθμός: ${order.id}`);
@@ -66,7 +76,12 @@ const formatOrderForPrinter = (order) => {
     lines.push('------------------------------');
     lines.push('Ευχαριστούμε!');
     lines.push('\n\n\n');
-    return Buffer.from(lines.join('\n'), 'ascii');
+
+    // Convert text to latin1 encoding (compatible with Greek code pages)
+    const textBuffer = Buffer.from(lines.join('\n'), 'latin1');
+
+    // Combine initialization commands with text
+    return Buffer.concat([buffer, textBuffer]);
 };
 
 const printOrder = (order) => {
