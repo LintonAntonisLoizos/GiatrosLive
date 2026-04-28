@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Giatros | Delivery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #e21b70; 
+            --primary-hover: #c2155d;
+            --bg-color: #f8f9fa;
+        }
+        
+        body { background: var(--bg-color); font-family: 'Segoe UI', sans-serif; padding-bottom: 80px; }
+        
+        .top-navbar { background: white; padding: 15px 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative; z-index: 1020; }
+        .brand-logo { font-size: 1.5rem; font-weight: 900; color: var(--primary); text-decoration: none; letter-spacing: 1px; }
+        
+        .sticky-cats { 
+            position: sticky; top: 0; background: white; z-index: 1010; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+            overflow-x: auto; white-space: nowrap; padding: 12px 15px; 
+            scrollbar-width: none;
+        }
+        .sticky-cats::-webkit-scrollbar { display: none; }
+        
+        .cat-pill { 
+            display: inline-block; padding: 8px 16px; margin-right: 10px; 
+            background: #f1f3f5; color: #495057; border-radius: 20px; 
+            font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: 0.2s;
+        }
+        .cat-pill.active { background: var(--primary); color: white; }
+
+        .menu-section { scroll-margin-top: 80px; padding-top: 30px; }
+        .section-title { font-weight: 800; font-size: 1.4rem; color: #212529; margin-bottom: 15px; }
+
+        .product-card { 
+            background: white; border-radius: 12px; padding: 12px; margin-bottom: 15px; 
+            border: 1px solid #eee; display: flex; justify-content: space-between; 
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+        .prod-info { flex: 1; padding-right: 15px; display: flex; flex-direction: column; justify-content: center; }
+        .prod-name { font-weight: 700; font-size: 1.05rem; color: #212529; margin-bottom: 4px; }
+        .prod-desc { font-size: 0.85rem; color: #6c757d; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .prod-price-row { margin-top: 8px; font-weight: 700; color: #212529; }
+        
+        .prod-img-box { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
+        .prod-img-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+        .add-btn-small { 
+            position: absolute; bottom: -8px; right: -5px; 
+            background: white; color: var(--primary); border: 1px solid #eee; 
+            border-radius: 50%; width: 30px; height: 30px; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-weight: bold;
+        }
+
+        /* Quantity Selector */
+        .qty-selector { display: flex; align-items: center; background: #f8f9fa; border-radius: 10px; padding: 5px; width: fit-content; }
+        .qty-btn { background: white; border: 1px solid #dee2e6; width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--primary); font-weight: bold; }
+        .qty-value { padding: 0 15px; font-weight: 700; font-size: 1.1rem; }
+
+        .cart-fab {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(150%);
+            width: 92%; max-width: 450px; background: var(--primary); color: white;
+            border-radius: 12px; padding: 15px 20px; cursor: pointer;
+            box-shadow: 0 5px 20px rgba(226, 27, 112, 0.4); z-index: 1050;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-fab.visible { transform: translateX(-50%) translateY(0); }
+        .cart-badge { background: white; color: var(--primary); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; }
+
+        /* Modal Styles */
+        .modal-content { border-radius: 20px; border: none; overflow: hidden; }
+        .modal-header-img { width: 100%; height: 200px; object-fit: cover; }
+        .attr-option { display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid #dee2e6; border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+        .attr-option.selected { border-color: var(--primary); background: #fff5f8; }
+        .btn-add-cart-large { background: var(--primary); color: white; font-weight: 700; padding: 16px; border-radius: 12px; width: 100%; border: none; font-size: 1.1rem; }
+        
+        /* Cart Item Styles */
+        .cart-item { padding: 15px 0; border-bottom: 1px solid #eee; }
+        .cart-item-info { flex-grow: 1; }
+        .cart-qty-controls { display: flex; align-items: center; margin-top: 5px; }
+        .cart-qty-btn { border: 1px solid #dee2e6; background: white; width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="top-navbar">
+    <a href="#" class="brand-logo">GIATROS</a>
+</div>
+
+<div class="sticky-cats" id="categoryNav"></div>
+
+<div class="container" id="menuContainer"></div>
+
+<div id="cartFab" class="cart-fab" onclick="cartModal.show()">
+    <div class="d-flex align-items-center">
+        <div class="cart-badge me-2" id="fabCount">0</div>
+        <div class="fw-bold">Το καλάθι μου</div>
+    </div>
+    <div class="fw-bold fs-5" id="fabTotal">0.00€</div>
+</div>
+
+<div class="modal fade" id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-0 position-relative">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3 bg-white p-2 rounded-circle" data-bs-dismiss="modal" style="z-index:10"></button>
+                <img id="modalImg" src="" class="modal-header-img">
+                <div class="p-4">
+                    <h3 id="modalTitle" class="fw-bold mb-1"></h3>
+                    <p id="modalDesc" class="text-muted small mb-4"></p>
+                    
+                    <div id="modal-attributes-section" style="display:none;">
+                        <h6 class="fw-bold mb-3">Επιλογή μεγέθους</h6>
+                        <div id="modal-attr-list"></div>
+                    </div>
+
+                    <div class="mt-4 mb-4">
+                        <h6 class="fw-bold mb-2">Ποσότητα</h6>
+                        <div class="qty-selector">
+                            <div class="qty-btn" onclick="updateModalQty(-1)">−</div>
+                            <div class="qty-value" id="modalQty">1</div>
+                            <div class="qty-btn" onclick="updateModalQty(1)">+</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-add-cart-large d-flex justify-content-between" onclick="confirmAddToCart()">
+                        <span>Προσθήκη στο καλάθι</span>
+                        <span id="currentPrice">0.00€</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="fw-bold">Η παραγγελία μου</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="cartItemsContainer"></div>
+            <div class="modal-body bg-white rounded-4 shadow-sm mb-3 p-4">
+                <h6 class="fw-bold mb-3">Στοιχεία Παραγγελίας</h6>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label small fw-bold">Όνομα</label>
+                        <input id="customerName" class="form-control" placeholder="π.χ. Μαρία" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-bold">Τηλέφωνο</label>
+                        <input id="customerPhone" class="form-control" placeholder="π.χ. 6900000000" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-bold">Διεύθυνση</label>
+                        <textarea id="customerAddress" class="form-control" rows="2" placeholder="π.χ. Οδός 123"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-bold">Σχόλια</label>
+                        <textarea id="customerComments" class="form-control" rows="2" placeholder="π.χ. χωρίς κρεμμύδι"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Τύπος Παραγγελίας</label>
+                        <select id="orderType" class="form-select" onchange="updateTableNumberVisibility()">
+                            <option value="takeaway">Παραλαβή/Delivery</option>
+                            <option value="dinein">Στο κατάστημα</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" id="tableNumberGroup" style="display:none;">
+                        <label class="form-label small fw-bold">Αρ. Τραπεζιού</label>
+                        <input id="tableNumber" class="form-control" placeholder="π.χ. 5" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer flex-column border-0 bg-light">
+                <div class="w-100 d-flex justify-content-between mb-3 fw-bold fs-5">
+                    <span>Σύνολο</span>
+                    <span id="cartModalTotal">0.00€</span>
+                </div>
+                <button class="btn-add-cart-large w-100" onclick="checkoutOrder()">Ολοκλήρωση Παραγγελίας</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let currentItem = null;
+    let selectedOption = null;
+    let currentQty = 1;
+    let cart = [];
+    
+    const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+    const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+
+    async function loadMenu() {
+        const res = await fetch('/api/menu');
+        const data = await res.json();
+        
+        let navHtml = '';
+        let menuHtml = '';
+
+        data.categories.forEach((cat, index) => {
+            if (cat.items.length === 0) return;
+            navHtml += `<a href="#cat-${cat.id}" class="cat-pill ${index===0?'active':''}" onclick="setActiveCat(this)">${cat.name}</a>`;
+            menuHtml += `
+                <div id="cat-${cat.id}" class="menu-section">
+                    <h2 class="section-title">${cat.name}</h2>
+                    <div class="row">
+                        ${cat.items.map(item => `
+                            <div class="col-md-6">
+                                <div class="product-card" onclick='openProduct(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                                    <div class="prod-info">
+                                        <div class="prod-name">${item.name}</div>
+                                        <div class="prod-desc text-muted small">${item.description || ''}</div>
+                                        <div class="prod-price-row">${item.base_price.toFixed(2)}€</div>
+                                    </div>
+                                    <div class="prod-img-box">
+                                        <img src="${item.image}">
+                                        <div class="add-btn-small">+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+        document.getElementById('categoryNav').innerHTML = navHtml;
+        document.getElementById('menuContainer').innerHTML = menuHtml;
+    }
+
+    function openProduct(item) {
+        currentItem = item;
+        currentQty = 1;
+        document.getElementById('modalQty').innerText = currentQty;
+        document.getElementById('modalTitle').innerText = item.name;
+        document.getElementById('modalDesc').innerText = item.description || '';
+        document.getElementById('modalImg').src = item.image;
+        
+        const attrList = document.getElementById('modal-attr-list');
+        const attrSection = document.getElementById('modal-attributes-section');
+        
+        if (item.options && item.options.length > 0) {
+            attrSection.style.display = 'block';
+            selectedOption = item.options[0];
+            attrList.innerHTML = item.options.map((opt, idx) => `
+                <div class="attr-option ${idx === 0 ? 'selected' : ''}" onclick="selectAttr(this, '${opt.name}', ${opt.price})">
+                    <span>${opt.name}</span>
+                    <span class="fw-bold">+${opt.price.toFixed(2)}€</span>
+                </div>
+            `).join('');
+        } else {
+            attrSection.style.display = 'none';
+            selectedOption = null;
+        }
+        updatePriceDisplay();
+        productModal.show();
+    }
+
+    function updateModalQty(val) {
+        currentQty = Math.max(1, currentQty + val);
+        document.getElementById('modalQty').innerText = currentQty;
+        updatePriceDisplay();
+    }
+
+    function selectAttr(el, name, price) {
+        document.querySelectorAll('.attr-option').forEach(x => x.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedOption = { name, price };
+        updatePriceDisplay();
+    }
+
+    function updatePriceDisplay() {
+        const base = currentItem.base_price + (selectedOption ? selectedOption.price : 0);
+        document.getElementById('currentPrice').innerText = (base * currentQty).toFixed(2) + '€';
+    }
+
+    function confirmAddToCart() {
+        const unitPrice = currentItem.base_price + (selectedOption ? selectedOption.price : 0);
+        
+        // Έλεγχος αν υπάρχει ήδη το ίδιο προϊόν με το ίδιο option στο καλάθι
+        const existing = cart.find(x => x.id === currentItem.id && x.option === (selectedOption?.name || null));
+        
+        if (existing) {
+            existing.qty += currentQty;
+        } else {
+            cart.push({
+                id: currentItem.id,
+                name: currentItem.name,
+                option: selectedOption ? selectedOption.name : null,
+                unitPrice: unitPrice,
+                qty: currentQty
+            });
+        }
+        
+        updateCartUI();
+        productModal.hide();
+    }
+
+    function updateCartUI() {
+        const count = cart.reduce((s, i) => s + i.qty, 0);
+        const total = cart.reduce((s, i) => s + (i.unitPrice * i.qty), 0);
+        
+        const fab = document.getElementById('cartFab');
+        if (count > 0) {
+            fab.classList.add('visible');
+            document.getElementById('fabCount').innerText = count;
+            document.getElementById('fabTotal').innerText = total.toFixed(2) + '€';
+            document.getElementById('cartModalTotal').innerText = total.toFixed(2) + '€';
+            
+            document.getElementById('cartItemsContainer').innerHTML = cart.map((item, index) => `
+                <div class="cart-item d-flex align-items-center">
+                    <div class="cart-item-info">
+                        <div class="fw-bold">${item.name}</div>
+                        <div class="text-muted small">${item.option || ''}</div>
+                        <div class="cart-qty-controls">
+                            <div class="cart-qty-btn" onclick="changeCartQty(${index}, -1)">−</div>
+                            <div class="px-3 fw-bold">${item.qty}</div>
+                            <div class="cart-qty-btn" onclick="changeCartQty(${index}, 1)">+</div>
+                        </div>
+                    </div>
+                    <div class="fw-bold">${(item.unitPrice * item.qty).toFixed(2)}€</div>
+                </div>
+            `).join('');
+        } else {
+            fab.classList.remove('visible');
+            cartModal.hide();
+        }
+    }
+
+    function changeCartQty(index, val) {
+        cart[index].qty += val;
+        if (cart[index].qty <= 0) cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function setActiveCat(el) {
+        document.querySelectorAll('.cat-pill').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function updateTableNumberVisibility() {
+        const orderType = document.getElementById('orderType').value;
+        document.getElementById('tableNumberGroup').style.display = orderType === 'dinein' ? 'block' : 'none';
+    }
+
+    async function checkoutOrder() {
+        if (cart.length === 0) {
+            return alert('Το καλάθι είναι άδειο.');
+        }
+
+        const customer = {
+            name: document.getElementById('customerName').value.trim(),
+            phone: document.getElementById('customerPhone').value.trim(),
+            address: document.getElementById('customerAddress').value.trim(),
+            comments: document.getElementById('customerComments').value.trim()
+        };
+
+        const orderType = document.getElementById('orderType').value;
+        const tableNumber = orderType === 'dinein' ? document.getElementById('tableNumber').value.trim() : null;
+
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ customer, items: cart, orderType, tableNumber })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            return alert(data.error || 'Υπήρξε πρόβλημα κατά την αποστολή της παραγγελίας.');
+        }
+
+        alert(`Η παραγγελία στάλθηκε με επιτυχία. Αριθμός: ${data.order.id}`);
+        cart = [];
+        updateCartUI();
+        document.getElementById('customerName').value = '';
+        document.getElementById('customerPhone').value = '';
+        document.getElementById('customerAddress').value = '';
+        document.getElementById('customerComments').value = '';
+        document.getElementById('orderType').value = 'takeaway';
+        document.getElementById('tableNumber').value = '';
+        updateTableNumberVisibility();
+        cartModal.hide();
+    }
+
+    loadMenu();
+</script>
+</body>
+</html>

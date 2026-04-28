@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Giatros Admin | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --sidebar-width: 260px; 
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+        }
+        body { background: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Sidebar Styling */
+        .sidebar { width: var(--sidebar-width); background: var(--primary-color); color: white; min-height: 100vh; position: fixed; transition: 0.3s; z-index: 1000; }
+        .sidebar-brand { padding: 25px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-link { padding: 12px 20px; display: block; color: #bdc3c7; text-decoration: none; transition: 0.3s; border-left: 4px solid transparent; cursor: pointer; }
+        .sidebar-link:hover { background: #34495e; color: white; }
+        .sidebar-link.active { background: #34495e; color: white; border-left-color: var(--accent-color); }
+        
+        .menu-dropdown { background: #1a252f; display: none; }
+        .menu-dropdown.show { display: block; }
+        .dropdown-item-side { padding: 10px 20px 10px 45px; font-size: 0.9rem; color: #bdc3c7; display: block; text-decoration: none; cursor: pointer; }
+        .dropdown-item-side:hover { color: white; background: rgba(255,255,255,0.05); }
+
+        .main-content { margin-left: var(--sidebar-width); padding: 40px; transition: 0.3s; }
+        
+        /* Page Sections */
+        .page-section { display: none; animation: fadeIn 0.4s; }
+        .page-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* UI Components */
+        .card-custom { border: none; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        
+        /* Preview Card Styles */
+        .preview-label { font-weight: bold; color: #7f8c8d; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 10px; display: block; }
+        .product-preview-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); max-width: 350px; margin: auto; }
+        .preview-img-container { width: 100%; height: 200px; background: #eee; overflow: hidden; }
+        .preview-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .preview-body { padding: 20px; }
+        .preview-title { font-size: 1.3rem; font-weight: 700; color: #2c3e50; }
+        .preview-desc { font-size: 0.85rem; color: #7f8c8d; min-height: 40px; margin-bottom: 15px; }
+        .preview-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .preview-price { font-size: 1.2rem; font-weight: 800; color: #27ae60; }
+        .attr-badge { background: #ebf5fb; color: #3498db; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; margin-right: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <h4 class="m-0 fw-bold"><i class="fa fa-user-md me-2"></i>Giatros Admin</h4>
+    </div>
+    
+    <div class="py-3">
+        <a class="sidebar-link active" onclick="showPage('dashboard', this)">
+            <i class="fa fa-home me-2"></i> Αρχική
+        </a>
+
+        <a class="sidebar-link d-flex justify-content-between align-items-center" onclick="toggleDropdown('menu-sub')">
+            <span><i class="fa fa-utensils me-2"></i> Διαχείριση Μενού</span>
+            <i class="fa fa-chevron-down small"></i>
+        </a>
+        <div id="menu-sub" class="menu-dropdown">
+            <a class="dropdown-item-side" onclick="showPage('categories', this)">• Κατηγορίες</a>
+            <a class="dropdown-item-side" onclick="showPage('products', this)">• Προϊόντα</a>
+        </div>
+
+        <a class="sidebar-link" onclick="showPage('orders', this)">
+            <i class="fa fa-shopping-basket me-2"></i> Διαχείριση Παραγγελιών
+        </a>
+    </div>
+</div>
+
+<div class="main-content">
+    
+    <section id="dashboard" class="page-section active">
+        <h2 class="fw-bold mb-4">Καλώς ήρθατε, Giatre!</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-custom p-4 bg-primary text-white">
+                    <h5>Συνολικά Προϊόντα</h5>
+                    <h2 id="stats-products">0</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-4 bg-success text-white">
+                    <h5>Κατηγορίες</h5>
+                    <h2 id="stats-categories">0</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categories" class="page-section">
+        <h2 class="fw-bold mb-4">Διαχείριση Κατηγοριών</h2>
+        <div class="card card-custom p-4">
+            <h5>Νέα Κατηγορία</h5>
+            <div class="input-group">
+                <input type="text" id="newCatName" class="form-control" placeholder="π.χ. Burgers">
+                <button class="btn btn-primary" onclick="addCategory()">Προσθήκη</button>
+            </div>
+        </div>
+        <div class="card card-custom overflow-hidden">
+            <table class="table table-hover m-0">
+                <thead class="table-light"><tr><th>ID</th><th>Όνομα</th><th>Διαθεσιμότητα</th><th class="text-end">Ενέργειες</th></tr></thead>
+                <tbody id="categories-table"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="products" class="page-section">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card card-custom p-4">
+                    <h5 id="formTitle" class="mb-4 text-primary fw-bold"><i class="fa fa-edit me-2"></i>Στοιχεία Προϊόντος</h5>
+                    <input type="hidden" id="editItemId">
+                    <input type="hidden" id="editCatId">
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Κατηγορία</label>
+                            <select id="catDropdown" class="form-select"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Όνομα Προϊόντος</label>
+                            <input type="text" id="itemName" class="form-control" oninput="updatePreview()" placeholder="π.χ. Burger Giatros">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold">Περιγραφή</label>
+                            <textarea id="itemDesc" class="form-control" rows="2" oninput="updatePreview()"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold">Τιμή (€)</label>
+                            <input type="number" step="0.01" id="itemPrice" class="form-control" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label small fw-bold">URL Εικόνας</label>
+                            <input type="text" id="itemImage" class="form-control" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Μεγέθη (Όνομα:Τιμή, ...)</label>
+                            <input type="text" id="itemOptions" class="form-control" oninput="updatePreview()" placeholder="π.χ. Κανονικό:0.00, Μεγάλο:2.00">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Extras (Όνομα:Τιμή, ...)</label>
+                            <input type="text" id="itemExtras" class="form-control" placeholder="π.χ. Bacon:0.50">
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button class="btn btn-success w-100 py-2 fw-bold" onclick="saveItem()">
+                                <i class="fa fa-save me-2"></i>Αποθήκευση Προϊόντος
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <span class="preview-label">Ζωντανή Προεπισκόπηση</span>
+                <div class="product-preview-card">
+                    <div class="preview-img-container"><img id="prev-img" src="https://via.placeholder.com/350x200?text=No+Image"></div>
+                    <div class="preview-body">
+                        <div id="prev-title" class="preview-title">Όνομα Προϊόντος</div>
+                        <div id="prev-desc" class="preview-desc text-muted small">Περιγραφή...</div>
+                        <div id="prev-options" class="mb-3"></div>
+                        <div class="preview-footer">
+                            <div class="preview-price"><span id="prev-price">0.00</span>€</div>
+                            <button class="btn btn-primary btn-sm rounded-pill">Προσθήκη +</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="fw-bold mt-5 mb-3">Λίστα Προϊόντων</h4>
+        <div class="accordion shadow-sm" id="menuAcc"></div>
+    </section>
+
+    <section id="orders" class="page-section">
+        <h2 class="fw-bold mb-4">Διαχείριση Παραγγελιών</h2>
+        <div class="btn-group mb-4" role="group" aria-label="Order sections">
+            <button id="activeOrdersTab" type="button" class="btn btn-outline-primary btn-sm active" onclick="showOrdersSection('active')">Ενεργές</button>
+            <button id="historyOrdersTab" type="button" class="btn btn-outline-secondary btn-sm" onclick="showOrdersSection('history')">Ιστορικό</button>
+        </div>
+        <div id="ordersInfo" class="alert alert-info" style="display:none;"></div>
+        <div id="ordersContainer"></div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Λεπτομέρειες Παραγγελίας <span id="modalOrderId"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Στοιχεία Πελάτη</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Όνομα</label>
+                                    <input type="text" class="form-control" id="modalCustomerName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Τηλέφωνο</label>
+                                    <input type="tel" class="form-control" id="modalCustomerPhone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Διεύθυνση</label>
+                                    <textarea class="form-control" id="modalCustomerAddress" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Σχόλια</label>
+                                    <textarea class="form-control" id="modalCustomerComments" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Προϊόντα</h6>
+                                <div id="modalItems"></div>
+                                <hr>
+                                <div class="d-flex justify-content-between fw-bold">
+                                    <span>Σύνολο:</span>
+                                    <span id="modalTotal">0.00€</span>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="form-label">Κατάσταση</label>
+                                    <select class="form-select" id="modalStatus">
+                                        <option value="pending">Εκκρεμεί</option>
+                                        <option value="completed">Ολοκληρώθηκε</option>
+                                        <option value="cancelled">Ακυρώθηκε</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-outline-secondary me-auto" onclick="printOrder(window.currentOrder.id)"><i class="fa fa-print me-1"></i>Επανεκτύπωση</button>
+                    <button type="button" class="btn btn-primary" onclick="saveOrderChanges()">Αποθήκευση Αλλαγών</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // --- NAVIGATION LOGIC ---
+    function showPage(pageId, el) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        
+        document.querySelectorAll('.sidebar-link, .dropdown-item-side').forEach(l => l.classList.remove('active'));
+        if(el) el.classList.add('active');
+
+        if(pageId === 'categories') loadCategories();
+        if(pageId === 'products') { loadProducts(); updatePreview(); }
+        if(pageId === 'orders') loadOrders();
+        if(pageId === 'dashboard') loadStats();
+    }
+
+    function toggleDropdown(id) {
+        document.getElementById(id).classList.toggle('show');
+    }
+
+    // --- CATEGORY FUNCTIONS ---
+    async function loadCategories() {
+        const res = await fetch('/api/menu');
+        const data = await res.json();
+        document.getElementById('categories-table').innerHTML = data.categories.map(c => `
+            <tr>
+                <td>#${c.id}</td>
+                <td><input type="text" class="form-control form-control-sm w-75" value="${c.name}" readonly></td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" ${c.available ? 'checked' : ''} onchange="toggleCategoryAvailability(${c.id}, this.checked)">
+                        <label class="form-check-label">${c.available ? 'Διαθέσιμο' : 'Μη Διαθέσιμο'}</label>
+                    </div>
+                </td>
+                <td class="text-end">
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(${c.id})"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    async function addCategory() {
+        const name = document.getElementById('newCatName').value.trim();
+        if(!name) return alert("Δώσε όνομα!");
+        await fetch('/api/categories', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ name })
+        });
+        document.getElementById('newCatName').value = '';
+        loadCategories();
+        loadStats();
+    }
+
+    async function deleteCategory(id) {
+        if(confirm("Προσοχή! Θα διαγραφούν και τα προϊόντα της κατηγορίας. Συνέχεια;")) {
+            await fetch(`/api/categories/${id}`, { method: 'DELETE' });
+            loadCategories();
+            loadStats();
+        }
+    }
+
+    async function toggleCategoryAvailability(id, available) {
+        await fetch(`/api/categories/${id}/availability`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ available })
+        });
+        loadCategories();
+    }
+
+    // --- PRODUCT FUNCTIONS ---
+    function updatePreview() {
+        const name = document.getElementById('itemName').value || "Όνομα Προϊόντος";
+        const desc = document.getElementById('itemDesc').value || "Περιγραφή...";
+        const price = parseFloat(document.getElementById('itemPrice').value) || 0;
+        const img = document.getElementById('itemImage').value || "https://via.placeholder.com/350x200?text=No+Image";
+        const optionsRaw = document.getElementById('itemOptions').value;
+
+        document.getElementById('prev-title').innerText = name;
+        document.getElementById('prev-desc').innerText = desc;
+        document.getElementById('prev-price').innerText = price.toFixed(2);
+        document.getElementById('prev-img').src = img;
+
+        const optContainer = document.getElementById('prev-options');
+        optContainer.innerHTML = '';
+        if(optionsRaw) {
+            optionsRaw.split(',').forEach(opt => {
+                if(opt.includes(':')) {
+                    const span = document.createElement('span');
+                    span.className = 'attr-badge';
+                    span.innerText = opt.split(':')[0].trim();
+                    optContainer.appendChild(span);
+                }
+            });
+        }
+    }
+
+    async function loadProducts() {
+        const res = await fetch('/api/menu');
+        const data = await res.json();
+        
+        // Populate Dropdown
+        document.getElementById('catDropdown').innerHTML = data.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        
+        // Populate Accordion
+        document.getElementById('menuAcc').innerHTML = data.categories.map(c => `
+            <div class="accordion-item border-0 mb-2 shadow-sm">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#c${c.id}">
+                        ${c.name} (${c.items.length})
+                    </button>
+                </h2>
+                <div id="c${c.id}" class="accordion-collapse collapse">
+                    <div class="accordion-body p-0">
+                        <table class="table table-hover align-middle m-0">
+                            <thead class="table-light"><tr><th>Εικόνα</th><th>Όνομα</th><th>Τιμή</th><th>Διαθεσιμότητα</th><th class="text-end">Ενέργειες</th></tr></thead>
+                            <tbody id="items-list-${c.id}">
+                                ${c.items.map(i => `
+                                    <tr>
+                                        <td style="width:60px"><img src="${i.image}" class="rounded" style="width:45px;height:45px;object-fit:cover;"></td>
+                                        <td><strong>${i.name}</strong></td>
+                                        <td>${i.base_price.toFixed(2)}€</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" ${i.available ? 'checked' : ''} onchange="toggleItemAvailability(${c.id}, ${i.id}, this.checked)">
+                                                <label class="form-check-label">${i.available ? 'Διαθέσιμο' : 'Μη Διαθέσιμο'}</label>
+                                            </div>
+                                        </td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-light text-primary" onclick='prepareEdit(${c.id}, ${JSON.stringify(i).replace(/'/g, "&apos;")})'><i class="fa fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-light text-danger" onclick="deleteItem(${c.id}, ${i.id})"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function saveItem() {
+        const id = document.getElementById('editItemId').value;
+        const catId = document.getElementById('catDropdown').value;
+        const oldCatId = document.getElementById('editCatId').value;
+        
+        const parseCSV = (val) => val.split(',').filter(x => x.includes(':')).map(x => {
+            const parts = x.split(':');
+            return { name: parts[0].trim(), price: parseFloat(parts[1]) || 0 };
+        });
+
+        const data = {
+            categoryId: catId,
+            name: document.getElementById('itemName').value,
+            price: document.getElementById('itemPrice').value,
+            description: document.getElementById('itemDesc').value,
+            image: document.getElementById('itemImage').value,
+            options: parseCSV(document.getElementById('itemOptions').value),
+            extras: parseCSV(document.getElementById('itemExtras').value)
+        };
+
+        const url = id ? `/api/items/${oldCatId}/${id}` : '/api/items';
+        await fetch(url, { 
+            method: id ? 'PUT' : 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify(data) 
+        });
+        
+        resetForm();
+        loadProducts();
+        loadStats();
+    }
+
+    function prepareEdit(catId, item) {
+        document.getElementById('editItemId').value = item.id;
+        document.getElementById('editCatId').value = catId;
+        document.getElementById('catDropdown').value = catId;
+        document.getElementById('itemName').value = item.name;
+        document.getElementById('itemPrice').value = item.base_price;
+        document.getElementById('itemDesc').value = item.description || "";
+        document.getElementById('itemImage').value = item.image;
+        document.getElementById('itemOptions').value = (item.options || []).map(o => `${o.name}:${o.price}`).join(', ');
+        document.getElementById('itemExtras').value = (item.extras || []).map(e => `${e.name}:${e.price}`).join(', ');
+        updatePreview();
+        window.scrollTo(0,0);
+    }
+
+    async function deleteItem(cId, iId) {
+        if(confirm('Διαγραφή προϊόντος;')) {
+            await fetch(`/api/items/${cId}/${iId}`, { method: 'DELETE' });
+            loadProducts();
+            loadStats();
+        }
+    }
+
+    async function toggleItemAvailability(catId, itemId, available) {
+        await fetch(`/api/items/${catId}/${itemId}/availability`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ available })
+        });
+        loadProducts();
+    }
+
+    function resetForm() {
+        document.getElementById('editItemId').value = "";
+        ['itemName','itemPrice','itemDesc','itemImage','itemOptions','itemExtras'].forEach(f => document.getElementById(f).value = '');
+        updatePreview();
+    }
+
+    // --- DASHBOARD STATS ---
+    async function loadStats() {
+        const res = await fetch('/api/menu');
+        const data = await res.json();
+        document.getElementById('stats-categories').innerText = data.categories.length;
+        let count = 0;
+        data.categories.forEach(c => count += c.items.length);
+        document.getElementById('stats-products').innerText = count;
+    }
+
+    // --- ORDERS FUNCTIONS ---
+    let currentOrdersTab = 'active';
+
+    function showOrdersSection(tab) {
+        currentOrdersTab = tab;
+        document.getElementById('activeOrdersTab').classList.toggle('active', tab === 'active');
+        document.getElementById('activeOrdersTab').classList.toggle('btn-primary', tab === 'active');
+        document.getElementById('activeOrdersTab').classList.toggle('btn-outline-primary', tab !== 'active');
+        document.getElementById('historyOrdersTab').classList.toggle('active', tab === 'history');
+        document.getElementById('historyOrdersTab').classList.toggle('btn-secondary', tab === 'history');
+        document.getElementById('historyOrdersTab').classList.toggle('btn-outline-secondary', tab !== 'history');
+        loadOrders();
+    }
+
+    async function loadOrders() {
+        const res = await fetch('/api/orders');
+        const orders = await res.json();
+        const filteredOrders = currentOrdersTab === 'active' ?
+            orders.filter(order => order.status !== 'completed') :
+            orders.filter(order => order.status === 'completed');
+        const infoEl = document.getElementById('ordersInfo');
+        if (currentOrdersTab === 'active') {
+            infoEl.innerText = 'Εμφανίζονται οι ενεργές παραγγελίες.';
+        } else {
+            infoEl.innerText = 'Εμφανίζονται οι ολοκληρωμένες παραγγελίες στο ιστορικό.';
+        }
+        infoEl.style.display = filteredOrders.length ? 'block' : 'none';
+        document.getElementById('ordersContainer').innerHTML = filteredOrders.length === 0 ? 
+            `<p class="text-muted">${currentOrdersTab === 'active' ? 'Δεν υπάρχουν ενεργές παραγγελίες.' : 'Δεν υπάρχουν ολοκληρωμένες παραγγελίες.'}</p>` :
+            filteredOrders.map(order => `
+                <div class="card card-custom p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="fw-bold">Παραγγελία #${order.id}</h5>
+                            <p class="text-muted small">${new Date(order.timestamp).toLocaleString('el-GR')}</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-${order.status === 'pending' ? 'warning' : order.status === 'completed' ? 'success' : 'secondary'}">${order.status === 'pending' ? 'Εκκρεμεί' : order.status === 'completed' ? 'Ολοκληρώθηκε' : 'Ακυρώθηκε'}</span>
+                            <div class="mt-2">
+                                <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateOrderStatus(${order.id}, this.value)">
+                                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Εκκρεμεί</option>
+                                    <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Ολοκληρώθηκε</option>
+                                    <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Ακυρώθηκε</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <div class="small text-muted">${order.orderType === 'dinein' ? 'Στο κατάστημα' : 'Παραλαβή'}</div>
+                            ${order.orderType === 'dinein' && order.tableNumber ? `<div class="small">Τραπέζι ${order.tableNumber}</div>` : ''}
+                            <div class="fw-bold">${order.customer.name || 'Ανώνυμος'}</div>
+                        </div>
+                        <div class="fw-bold">${order.total.toFixed(2)}€</div>
+                    </div>
+                    <div class="small text-muted mb-2">${order.customer.phone || ''}${order.customer.comments ? ' · ' + order.customer.comments : ''}</div>
+                    ${order.customer.address ? `<div class="small text-muted mb-2">Διεύθυνση: ${order.customer.address}</div>` : ''}
+                    <div class="small text-muted mb-2">Εκτύπωση: ${((order.printState || 'printed') === 'printed') ? 'Έγινε' : ((order.printState || 'pending') === 'failed') ? 'Σφάλμα' : 'Σε ουρά'}</div>
+                    <div class="text-end">
+                        <button class="btn btn-sm btn-outline-secondary me-2" onclick="printOrder(${order.id})"><i class="fa fa-print me-1"></i>Εκτύπωση</button>
+                        <button class="btn btn-sm btn-outline-primary" onclick='viewOrderDetails(${JSON.stringify(order).replace(/'/g, "&apos;")})'>Προβολή / Επεξεργασία</button>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    async function updateOrderStatus(orderId, status) {
+        await fetch(`/api/orders/${orderId}/status`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ status })
+        });
+        loadOrders();
+    }
+
+    async function printOrder(orderId) {
+        const response = await fetch(`/api/orders/${orderId}/print`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            return alert(`Σφάλμα εκτύπωσης: ${data.error || response.statusText}`);
+        }
+        alert('Η παραγγελία στάλθηκε στην εκτύπωση.');
+    }
+
+    function viewOrderDetails(order) {
+        document.getElementById('modalOrderId').innerText = `#${order.id}`;
+        document.getElementById('modalCustomerName').value = order.customer.name || '';
+        document.getElementById('modalCustomerPhone').value = order.customer.phone || '';
+        document.getElementById('modalCustomerAddress').value = order.customer.address || '';
+        document.getElementById('modalCustomerComments').value = order.customer.comments || '';
+        document.getElementById('modalStatus').value = order.status;
+        
+        const itemsHtml = order.items.map(item => `
+            <div class="d-flex justify-content-between">
+                <span>${item.name} ${item.option ? `(${item.option})` : ''} x${item.qty}</span>
+                <span>${(item.unitPrice * item.qty).toFixed(2)}€</span>
+            </div>
+        `).join('');
+        document.getElementById('modalItems').innerHTML = itemsHtml;
+        
+        document.getElementById('modalTotal').innerText = order.total.toFixed(2) + '€';
+        
+        // Store order for saving
+        window.currentOrder = order;
+        
+        const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+        modal.show();
+    }
+
+    function updateItemQty(input, unitPrice) {
+        const qty = parseInt(input.value);
+        const priceSpan = input.nextElementSibling;
+        priceSpan.innerText = (unitPrice * qty).toFixed(2) + '€';
+        // Update total
+        const total = Array.from(document.querySelectorAll('#modalItems input')).reduce((sum, inp) => {
+            const qty = parseInt(inp.value);
+            const unitPrice = parseFloat(inp.nextElementSibling.innerText.replace('€', ''));
+            return sum + (unitPrice / qty * qty); // Wait, better way
+        }, 0);
+        document.getElementById('modalTotal').innerText = total.toFixed(2) + '€';
+    }
+
+    async function saveOrderChanges() {
+        const updatedOrder = {
+            customer: {
+                name: document.getElementById('modalCustomerName').value,
+                phone: document.getElementById('modalCustomerPhone').value,
+                address: document.getElementById('modalCustomerAddress').value,
+                comments: document.getElementById('modalCustomerComments').value
+            },
+            status: document.getElementById('modalStatus').value,
+            // For simplicity, not updating items here, but could be added
+        };
+        
+        await fetch(`/api/orders/${window.currentOrder.id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updatedOrder)
+        });
+        
+        loadOrders();
+        bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
+    }
+
+    // Auto-refresh orders every 5 seconds
+    setInterval(() => {
+        if (currentOrdersTab) {
+            loadOrders();
+        }
+    }, 5000);
+
+    // Initial Load
+    loadStats();
+    loadOrders();
+</script>
+</body>
+</html>
