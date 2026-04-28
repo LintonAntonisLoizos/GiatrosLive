@@ -37,7 +37,7 @@ if not exist ".env" (
     echo.
     echo Δημιουργία .env αρχείου...
     (
-        echo CLOUD_API_URL=https://giatros-live.onrender.com
+        echo CLOUD_API_URL=https://giatroslive.onrender.com
         echo LOCAL_PRINTER_HOST=192.168.88.4
         echo LOCAL_PRINTER_PORT=9100
         echo POLL_INTERVAL_SECONDS=10

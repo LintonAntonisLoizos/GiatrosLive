@@ -69,7 +69,7 @@ git push -u origin main
 
 Περίμενε 2-3 λεπτά. Το URL θα είναι κάτι σαν:
 ```
-https://giatros-live.onrender.com
+https://giatroslive.onrender.com
 ```
 
 ---
@@ -81,7 +81,7 @@ https://giatros-live.onrender.com
 **Δώσε σε κάθε κατάστημα αυτό το αρχείο ως `.env`:**
 
 ```dotenv
-CLOUD_API_URL=https://giatros-live.onrender.com
+CLOUD_API_URL=https://giatroslive.onrender.com
 LOCAL_PRINTER_HOST=192.168.88.4
 LOCAL_PRINTER_PORT=9100
 POLL_INTERVAL_SECONDS=10
@@ -92,7 +92,7 @@ STATUS_PORT=4000
 
 ## ΒΗΜΑ 7: Δοκιμή
 
-1. Πήγαινε: `https://giatros-live.onrender.com` (Πελάτης)
+1. Πήγαινε: `https://giatroslive.onrender.com` (Πελάτης)
 2. Πήγαινε: `https://giatros-live.onrender.com/administrator` (Admin)
 3. Στο κατάστημα τρέχει τον `START-AGENT.bat`
 

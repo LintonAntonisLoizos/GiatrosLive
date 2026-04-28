@@ -50,7 +50,7 @@ http://localhost:4000
 Ρύθμιση εκτυπωτή ή άλλα: Άνοιξε το `.env` με Notepad
 
 ```
-CLOUD_API_URL=https://giatros-live.onrender.com
+CLOUD_API_URL=https://giatroslive.onrender.com
 LOCAL_PRINTER_HOST=192.168.88.4
 LOCAL_PRINTER_PORT=9100
 POLL_INTERVAL_SECONDS=10
