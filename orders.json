@@ -1,0 +1,197 @@
+[
+    {
+        "id": 1777324872890,
+        "customer": {
+            "name": "Test",
+            "phone": "6900000000",
+            "address": "Test 1",
+            "comments": "none"
+        },
+        "items": [
+            {
+                "id": 1,
+                "name": "Test Item",
+                "unitPrice": 5,
+                "qty": 1
+            }
+        ],
+        "total": 5,
+        "status": "completed",
+        "timestamp": "2026-04-27T21:21:12.890Z"
+    },
+    {
+        "id": 1777324896362,
+        "customer": {
+            "name": "Antonis",
+            "phone": "6974583024",
+            "address": "Kamia",
+            "comments": ""
+        },
+        "items": [
+            {
+                "id": 1777317387096,
+                "name": "Ντοματοκεφτέδες",
+                "option": null,
+                "unitPrice": 4,
+                "qty": 4
+            }
+        ],
+        "total": 16,
+        "status": "cancelled",
+        "timestamp": "2026-04-27T21:21:36.362Z"
+    },
+    {
+        "id": 1777324955143,
+        "customer": {
+            "name": "Antonis",
+            "phone": "6912345678",
+            "address": "Mager 4",
+            "comments": "Malkies"
+        },
+        "items": [
+            {
+                "id": 1777317949186,
+                "name": "Του γιατρού",
+                "option": "Κανονική",
+                "unitPrice": 6,
+                "qty": 5
+            }
+        ],
+        "total": 30,
+        "status": "completed",
+        "timestamp": "2026-04-27T21:22:35.143Z"
+    },
+    {
+        "id": 1777325917085,
+        "customer": {
+            "name": "Αντωνης",
+            "phone": "",
+            "comments": ""
+        },
+        "items": [
+            {
+                "id": 1777317387096,
+                "name": "Ντοματοκεφτέδες",
+                "option": null,
+                "unitPrice": 4,
+                "qty": 3
+            }
+        ],
+        "total": 12,
+        "orderType": "takeaway",
+        "tableNumber": null,
+        "status": "pending",
+        "timestamp": "2026-04-27T21:38:37.085Z"
+    },
+    {
+        "id": 1777325957620,
+        "customer": {
+            "name": "",
+            "phone": "",
+            "comments": ""
+        },
+        "items": [
+            {
+                "id": 1777317492538,
+                "name": "Πίτα ολικής άλεσης",
+                "option": null,
+                "unitPrice": 0.5,
+                "qty": 4
+            }
+        ],
+        "total": 2,
+        "orderType": "dinein",
+        "tableNumber": "2",
+        "status": "pending",
+        "timestamp": "2026-04-27T21:39:17.620Z"
+    },
+    {
+        "id": 1777327085569,
+        "customer": {
+            "name": "",
+            "phone": "",
+            "comments": ""
+        },
+        "items": [
+            {
+                "id": 1777317949186,
+                "name": "Του γιατρού",
+                "option": "Κανονική",
+                "unitPrice": 6,
+                "qty": 1
+            }
+        ],
+        "total": 6,
+        "orderType": "dinein",
+        "tableNumber": "1",
+        "status": "pending",
+        "timestamp": "2026-04-27T21:58:05.569Z"
+    },
+    {
+        "id": 1777327682597,
+        "customer": {
+            "name": "Τακησ",
+            "phone": "",
+            "comments": ""
+        },
+        "items": [
+            {
+                "id": 1777317147164,
+                "name": "Φέτα",
+                "option": null,
+                "unitPrice": 4,
+                "qty": 1
+            }
+        ],
+        "total": 4,
+        "orderType": "takeaway",
+        "tableNumber": null,
+        "status": "pending",
+        "timestamp": "2026-04-27T22:08:02.597Z"
+    },
+    {
+        "id": 1777327716649,
+        "customer": {
+            "name": "Makis",
+            "phone": "",
+            "comments": ""
+        },
+        "items": [
+            {
+                "id": 1777317257760,
+                "name": "Κολοκυθοκεφτέδες",
+                "option": null,
+                "unitPrice": 4,
+                "qty": 3
+            }
+        ],
+        "total": 12,
+        "orderType": "takeaway",
+        "tableNumber": null,
+        "status": "pending",
+        "timestamp": "2026-04-27T22:08:36.649Z"
+    },
+    {
+        "id": 1777386528377,
+        "customer": {
+            "name": "Δοκιμή",
+            "phone": "1234567891",
+            "address": "Δοκιμαστικό",
+            "comments": "Δοκιμαστικά σχόλια."
+        },
+        "items": [
+            {
+                "id": 1777317147164,
+                "name": "Φέτα",
+                "option": null,
+                "unitPrice": 4,
+                "qty": 1
+            }
+        ],
+        "total": 4,
+        "status": "pending",
+        "timestamp": "2026-04-28T14:28:48.377Z",
+        "orderType": "takeaway",
+        "tableNumber": null
+    }
+]

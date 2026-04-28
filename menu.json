@@ -1,0 +1,243 @@
+{
+    "categories": [
+        {
+            "id": 1777316184441,
+            "name": "Ορεκτικά",
+            "items": [
+                {
+                    "id": 1777317147164,
+                    "name": "Φέτα",
+                    "base_price": 4,
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:pheta?c=1763103301",
+                    "extras": [],
+                    "description": "Με ελαιόλαδο & ρίγανη",
+                    "available": true
+                },
+                {
+                    "id": 1777317227799,
+                    "name": "Φέτα ψητή",
+                    "base_price": 4.5,
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:pheta-psiti?c=1727876548",
+                    "extras": [],
+                    "description": "Θέλεις φέτα αλλά ψήνεσαι και για κάτι διαφορετικό; Ψήνεται και η φέτα και έρχεται στην πόρτα σου στην πιο γκουρμέ εκδοχή της.",
+                    "available": true
+                },
+                {
+                    "id": 1777317257760,
+                    "name": "Κολοκυθοκεφτέδες",
+                    "base_price": 4,
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:pheta-psiti?c=1727876548",
+                    "extras": [],
+                    "description": "6 Τεμάχια",
+                    "available": true
+                },
+                {
+                    "id": 1777317387096,
+                    "name": "Ντοματοκεφτέδες",
+                    "base_price": 4,
+                    "description": "6 Τεμάχια",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:ntomatokephtedes?c=1754041993",
+                    "extras": [],
+                    "available": true
+                },
+                {
+                    "id": 1777317469419,
+                    "name": "Πίτα παραδοσιακή",
+                    "base_price": 0.5,
+                    "description": "Παραδοσιακή πίτα για κάθε γεύμα",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:pita-paradosiaki?c=1758800856",
+                    "extras": [],
+                    "available": true
+                },
+                {
+                    "id": 1777317492538,
+                    "name": "Πίτα ολικής άλεσης",
+                    "base_price": 0.5,
+                    "description": "Παραδοσιακή πίτα για κάθε γεύμα",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:pita-olikis-alesis?c=1758800940",
+                    "extras": [],
+                    "available": true
+                },
+                {
+                    "id": 1777317526486,
+                    "name": "Πίτα καλαμποκιού",
+                    "base_price": 0.5,
+                    "description": "Τεμάχιο",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:pita-kalampokiou?c=1766496907",
+                    "extras": [],
+                    "available": true
+                }
+            ],
+            "available": true
+        },
+        {
+            "id": 1777316189317,
+            "name": "Σαλάτες",
+            "items": [
+                {
+                    "id": 1777317949186,
+                    "name": "Του γιατρού",
+                    "base_price": 4.5,
+                    "description": "Σαλάτα με μαρούλι, λάχανο, καρότο, πιπεριά, τυρί, κρουτόν, σταφίδες, κρέμα βαλσάμικο εσπεριδοειδών & ελαιόλαδο",
+                    "image": "https://cdn.e-food.gr/shop/6087752/logo?t=1671188460",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1.5
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777317995355,
+                    "name": "Χωριάτικη",
+                    "base_price": 5.5,
+                    "description": "Σαλάτα με ντομάτα, αγγούρι, κρεμμύδι, πιπεριά, φέτα & ελιές",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:xwriatiki?c=1744725289",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1.5
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777318074451,
+                    "name": "Αγγουροντομάτα",
+                    "base_price": 4,
+                    "description": "Η αγγουροντομάτα είναι μια σαλάτα που έχει καταφέρει να είναι στα κυρίως, να είναι συνοδευτικό, να είναι απαραίτητη!",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:aggourontomata?c=1727542714",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777318111233,
+                    "name": "Μαρούλι",
+                    "base_price": 3,
+                    "description": "Η βάση των πιο νόστιμων σαλατών. Ανακάτεψε με τα αγαπημένα σου υλικά και φτιάξε τη δική σου σαλάτα, ή απόλαυσε σκέτο με την αγαπημένη σου σως.",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:marouli?c=1743158665",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777319825829,
+                    "name": "Λάχανο & καρότο",
+                    "base_price": 3,
+                    "description": "Δροσερή και χορταστική σαλάτα λάχανο & καρότο. Πάει με όλα τα κυρίως και γίνεται κυρίως όταν θέλεις κάτι υγιεινό που θα σε κρατήσει!",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:laxano-kai-karoto?c=1727544404",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777319851848,
+                    "name": "Κρητικός ντάκος",
+                    "base_price": 5,
+                    "description": "Σαλάτα με κρητικό παξιμάδι, ντομάτα, φέτα, ελιές & κάππαρη",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:kritikos-ntakos?c=1754769629",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1.5
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777320106815,
+                    "name": "Caesar`s",
+                    "base_price": 5.5,
+                    "description": "Σαλάτα με iceberg, καλαμπόκι, κοτόπουλο φιλέτο, ντομάτα, αγγούρι, παρμεζάνα, κρουτόν & σως Caesar`s",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:caesar-s?c=1776870819",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 1.5
+                        }
+                    ],
+                    "available": true
+                },
+                {
+                    "id": 1777320138063,
+                    "name": "Ζυμαρικών",
+                    "base_price": 5.5,
+                    "description": "Σαλάτα με πέννες, ντοματίνια, καλαμπόκι, κόκκινη πιπεριά, τυρί, ζαμπόν & σως",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:zumarikwn?c=1749556225",
+                    "extras": [],
+                    "options": [],
+                    "available": true
+                },
+                {
+                    "id": 1777321485481,
+                    "name": "Chef",
+                    "base_price": 5,
+                    "description": "Σαλάτα με iceberg, ντομάτα, τυρί, ζαμπόν, αυγό & σως",
+                    "image": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,f=auto/global_assets/vertical:food:chef?c=1772035962",
+                    "extras": [],
+                    "options": [
+                        {
+                            "name": "Ατομική",
+                            "price": 0
+                        },
+                        {
+                            "name": "Κανονική",
+                            "price": 2
+                        }
+                    ],
+                    "available": true
+                }
+            ],
+            "available": true
+        }
+    ]
+}

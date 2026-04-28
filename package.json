@@ -1,0 +1,17 @@
+{
+  "name": "giatros-live",
+  "version": "1.0.0",
+  "description": "Delivery order app with local printer support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "local-agent": "node local-printer-agent.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
